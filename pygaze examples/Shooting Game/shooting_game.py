@@ -29,7 +29,7 @@ hitscreen.clear(colour=(0,255,0))
 misscreen = Screen()
 misscreen.clear(colour=(255,0,0))
 
-# create eyelink objecy
+# create eyelink object
 eyetracker = EyeTracker(disp)
 
 # eyelink calibration
@@ -44,7 +44,7 @@ disp.show()
 
 # run several rounds
 for trialnr in range(0,TRIALS):
-	
+
 	# start eye tracking
 	eyetracker.start_recording()
 	eyetracker.log("start_trial %d" % trialnr)
@@ -91,7 +91,7 @@ for trialnr in range(0,TRIALS):
 	# stop eye tracking
 	trialend = libtime.get_time()
 	eyetracker.log("stop_trial %d" % trialnr)
-	eyetracker.stop_recording()	
+	eyetracker.stop_recording()
 
 
 # # # # #

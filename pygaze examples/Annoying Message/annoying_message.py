@@ -9,19 +9,19 @@
 MESSAGE = "AFK; BRB"
 
 # import stuff
+# SOMEBODY USED IMPORT STATEMENTS WRONG HERE
 import random
 from pygaze.defaults import *
 from pygaze import libtime
-from pygaze.libscreen import Display, Screen
-from pygaze.libinput import Keyboard
+from pygaze import display, screen, keyboard
 
 # start timing
 libtime.expstart()
 
 # objects
-disp = Display()
-scr = Screen()
-kb = Keyboard(keylist=['space'],timeout=1)
+disp = display.Display()
+scr = screen.Screen()
+kb = keyboard.Keyboard(keylist=['space'],timeout=1)
 
 # run annoying message
 while kb.get_key()[0] == None:
@@ -36,6 +36,6 @@ while kb.get_key()[0] == None:
 	disp.show()
 	# reset screen
 	scr.clear()
-	
+
 # stop the madness
 disp.close()
