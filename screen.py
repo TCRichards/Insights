@@ -1,0 +1,3 @@
+import pygaze
+
+print('hello')
