@@ -3,13 +3,10 @@ from pygaze import display, screen, keyboard
 from pygaze.eyetracker import EyeTracker
 from win32api import GetSystemMetrics
 
-
 import random
 
 width = GetSystemMetrics(0)
 height = GetSystemMetrics(1)
-# # # # #
-# prep
 
 # start timing
 libtime.expstart()
@@ -17,11 +14,12 @@ libtime.expstart()
 # create keyboard object
 kb = keyboard.Keyboard()
 
-# display object
+# display and screen object
 disp = display.Display()
 scr = screen.Screen()
 
 MESSAGE = 'HELLO WORLD'
+
 '''
 Wait to initilaze eye tracker until plugged in
 # create eyelink object
@@ -44,7 +42,4 @@ while kb.get_key()[0] == None:
 	# reset screen
 	scr.clear()
 
-# stop the madness
 disp.close()
-
-# stop the madness
