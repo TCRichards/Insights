@@ -3,7 +3,6 @@ from pygaze import display, screen, keyboard
 from pygaze.eyetracker import EyeTracker
 from win32api import GetSystemMetrics
 
-
 def main():
     libtime.expstart()
 	# create keyboard object
@@ -11,8 +10,6 @@ def main():
 	# display and screen object
     disp = display.Display()
     scr = screen.Screen()
-
-
 
     disp.close()
 

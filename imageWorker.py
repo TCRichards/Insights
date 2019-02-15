@@ -15,14 +15,16 @@ def main():
         listbox.insert(END, imagePath)
     mainloop()
 
-
-
 master = Tk()
 listbox = Listbox(master, selectmode=SINGLE)
 listbox.pack()
 selectButton = Button(master,text='select',command=openImage)
 selectButton.pack()
 
+while kb.get_key()[0] == None:
+    continue # Intenional infinite loop
+scr.clear()
+disp.dispose()
 
 
 main()

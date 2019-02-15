@@ -1,7 +1,6 @@
 from tkinter import *
 import animation, imageWorker, reading
 
-
 # Instantiate the tkinter master object
 root = Tk()
 menu = Menu(root)
@@ -9,9 +8,8 @@ menu = Menu(root)
 # Opens the image configuration program
 def configureImage():
     imageWorker.main()
-
 #==================================
-# Runs the example exercise in a new fullscreen window
+# Runs the tests in a new fullscreen window
 def startAnimation():
     animation.main()
 
@@ -20,7 +18,6 @@ def startReading():
 
 def startFace():
     face.main()
-    
 #===================================
 # Commands for a File tab in the window
 def NewFile():
@@ -56,6 +53,7 @@ def startup():
     animationButton.pack()
     readingButton.pack()
     imageButton.pack()
+    faceButton.pack()
 
     mainloop()
 
