@@ -2,6 +2,9 @@ from pygaze import libtime
 from pygaze import display, screen, keyboard
 from pygaze.eyetracker import EyeTracker
 from win32api import GetSystemMetrics
+import os
+
+print(os.getcwd())
 
 def main():
     libtime.expstart()

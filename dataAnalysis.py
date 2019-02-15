@@ -8,25 +8,27 @@ from matplotlib.colors import LinearSegmentedColormap
 from win32api import GetSystemMetrics # Assuming test is performed on same size laptop!!!
 import os
 
-def loadData():
 
+def loadData():
     # Collect samps frames from the example files
     samps, events = load_eyelink_dataset('sample_data/bino1000.asc')
+    # Store event information about fixation and saccade
+    EFIX = events.dframes['EFIX']; ESACC = events.dframes['ESACC']
+    # Not using but could access 'start', 'end', 'msg' data as well
 
     # Clean the data using cili's built-in functions
     samps = interp_eyelink_blinks(samps, events, interp_fields=['pup_l'])
     samps = interp_zeros(samps, interp_fields=['pup_l'])
     samps = butterworth_series(samps, fields=['pup_l'])
-    # Convert panda dataframes to numpy arrays because that what Thomas knows
+    # Convert panda dataframes to numpy arrays because that's what Thomas knows
     # Assuming we have data from both eyes
     samps = samps.values
     pos_l = samps[:, 0:2]; pup_l = samps[1:,2]
     # Position is a 2D array where each entry corresponds to [x, y]
 
-    pos = pos_l     # Only consider left eye (for now?)
+    pos = pos_l             # Only consider left eye (for now?)
 
-    # Import all the images containing the characters 'face' and choose a random one
-
+    # Import all the images containing the word 'face' and choose a random one
     faces = []
     for imagePath in os.listdir('images'):
         if 'face' in imagePath:
@@ -34,6 +36,7 @@ def loadData():
     backgroundImage = Image.open('images/' + np.random.choice(faces))
 
     return backgroundImage, pos
+
 
 # Call loadData() and save results
 backgroundImage, pos = loadData()   # Eventually this could use inputs to specify data

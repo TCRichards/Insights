@@ -4,7 +4,9 @@ from pygaze.eyetracker import EyeTracker
 from win32api import GetSystemMetrics
 import numpy as np
 
-docs = np.array(['Crabs run to the sea.\nCrabs lay eggs.\nCrabs go home.\nLand crabs cannot swim.\n\nCrabs walk.\nCrabs run.\nMom crabs.\nTons of crabs.\n\nHard red crab.\nTaxi cab.\nFlat crab.\nFlat cab.'])
+# Example text
+docs = np.array(['Crabs run to the sea.\nCrabs lay eggs.\nCrabs go home.\nLand crabs cannot swim.\n\nCrabs walk.\nCrabs run.\nMom crabs.\nTons of crabs.\n\nHard red crab.\nTaxi cab.\nFlat crab.\nFlat cab.',
+'The crabs get to the sea.\nThey go in the water.\nThey lay eggs.\nThey go home.\n\nThese crabs live in Cuba.\nThey are land crabs.\nThey live on land.\nThey do not swim.\n\nThe crabs walk to the sea.\nThere are crabs on the grass.\nThere are crabs in the street.\nThey have hard shells.\nThey can pop tires.'])
 
 def main():
     global docs
@@ -27,7 +29,7 @@ def main():
 	'''
     #scr.set_background_colour(colour=(0,255,0))
 
-    scr.draw_text(text=text,fontsize=40)
+    scr.draw_text(text=text,fontsize=35)
 
     #draw_fixation(fixtype='cross', colour=None, pos=None, pw=1, diameter=12)
 
