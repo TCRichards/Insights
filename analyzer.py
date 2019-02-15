@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from matplotlib.colors import LinearSegmentedColormap
+from win32api import GetSystemMetrics # Assuming test is performed on same size laptop!!!
 
 
 def loadData():
@@ -17,10 +18,9 @@ def loadData():
     samps = butterworth_series(samps, fields=['pup_l'])
 
     # Convert panda dataframes to numpy arrays because that what Thomas knows
-    # Assuming we have samps from both eyes
-
+    # Assuming we have data from both eyes
     samps = samps.values
-    pos_l = samps[:, 0:2]; pup_l = samps[1:,2]; pos_r = samps[1:,3:5]; pup_r = samps[1:,5]
+    pos_l = samps[:, 0:2]; pup_l = samps[1:,2]
     # Position is a 2D array where each entry corresponds to [x, y]
 
     pos = pos_l     # Only consider left eye (for now?)
@@ -31,56 +31,60 @@ def loadData():
 
     return backgroundImage, pos
 
-
 backgroundImage, pos = loadData()   # Eventually this could use inputs to specify data
 
+def getHeatMap():
+    global backgroundImage, pos
+    #===============================================================
+    # returns a 2D matrix where each position corresponds to a 'heat'
+    h, w = backgroundImage.size # Returns the size in pixels
+    # Create a mesh grid over the entire space
+    x_gridpoints = w
+    y_gridpoints = h
+    mesh = np.zeros((x_gridpoints, y_gridpoints))
+    # Define the width and height of each grid point
+    MIN_X = np.min(pos[:,0])
+    MAX_X = np.max(pos[:,0])
+    MIN_Y = np.min(pos[:,1])
+    MAX_Y = np.max(pos[:,1])
 
-#===============================================================
-# returns a 2D matrix where each position corresponds to a 'heat'
+    pos[:,0] = (MAX_X-MIN_X)/w
+    pos[:,1] = (MAX_Y-MIN_Y)/h
 
-h, w = backgroundImage.size
-# Create a mesh grid over the entire space
-x_gridpoints = w
-y_gridpoints = h
-mesh = np.zeros((x_gridpoints, y_gridpoints))
-# Define the width and height of each grid point
-MIN_X = np.min(pos[:,0])
-MAX_X = np.max(pos[:,0])
-MIN_Y = np.min(pos[:,1])
-MAX_Y = np.max(pos[:,1])
-
-dx = MAX_X/x_gridpoints
-dy = MAX_Y/y_gridpoints
-
-
-for loc in pos:
-    try:
-        xGrid = int(loc[0]//dx)
-        yGrid = int(loc[1]//dy)
-        mesh[xGrid-5:xGrid+5, yGrid-5:yGrid+5] += 1     # Increment the area around the grid point containing the point
-    except IndexError as e:
-        print('Index error because of location ' + str(loc))
-        continue
-
-#===============================================================
-
-ncolors = 256
-color_array = plt.get_cmap('hot')(range(ncolors))
-# change alpha values
-color_array[:,-1] = np.linspace(1.0,0.0,ncolors)
-
-# create a colormap object
-map_object = LinearSegmentedColormap.from_list(name='hot_alpha',colors=color_array[::-1])
-
-# register this new colormap with matplotlib
-plt.register_cmap(cmap=map_object)
+    dx = MAX_X/x_gridpoints
+    dy = MAX_Y/y_gridpoints
 
 
+    for loc in pos:
+        try:
+            xGrid = int(loc[0]//dx)
+            yGrid = int(loc[1]//dy)
+            mesh[xGrid-5:xGrid+5, yGrid-5:yGrid+5] += 1     # Increment the area around the grid point containing the point
+        except IndexError as e:
+            print('Index error because of location ' + str(loc))
+            continue
+
+    #===============================================================
+
+    ncolors = 256
+    color_array = plt.get_cmap('hot')(range(ncolors))
+    # change alpha values
+    color_array[:,-1] = np.linspace(1.0,0.0,ncolors)
+    # create a colormap object
+    map_object = LinearSegmentedColormap.from_list(name='hot_alpha',colors=color_array[::-1])
+    # register this new colormap with matplotlib
+    plt.register_cmap(cmap=map_object)
+
+    fig, ax = plt.subplots()
+    ax.imshow(backgroundImage)
+    cb = ax.contourf(mesh, cmap='hot_alpha')
+    plt.colorbar(cb)
+
+    plt.show()
+
+def getFixationData():
+    global backgroundImage, pos
+    print('NOT DONE YET')
 
 
-fig, ax = plt.subplots()
-ax.imshow(backgroundImage)
-cb = ax.contourf(mesh, cmap='hot_alpha')
-plt.colorbar(cb)
-
-plt.show()
+getHeatMap()
