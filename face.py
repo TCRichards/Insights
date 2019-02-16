@@ -3,6 +3,7 @@ from pygaze import display, screen, keyboard
 from pygaze import eyetracker
 from win32api import GetSystemMetrics
 import sys
+import pylink
 import os
 
 
@@ -16,7 +17,7 @@ def main(imagePath):
 	disp = display.Display(dispsize = [GetSystemMetrics(0), GetSystemMetrics(1)])
 	scr = screen.Screen(dispsize = [GetSystemMetrics(0), GetSystemMetrics(1)])
 
-	tracker = eyetracker.EyeTracker(disp)
+	tracker = pylink.EyeLink("100.1.1.1")
 
 	# eyelink calibration
 	#eyetracker.calibrate()
