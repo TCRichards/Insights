@@ -1,10 +1,10 @@
 from tkinter import *
 # Import the tests
-import animation, imageWorker, reading, face
+import animation, imageWorker, reading, face, analysisLauncher
+import os
 
 # Instantiate the tkinter master object
 root = Tk()
-menu = Menu(root)
 #=================================
 # Opens the image configuration program
 def viewImages():
@@ -15,35 +15,27 @@ def startAnimation():
     animation.main()
 
 def startReading():
-    reading.main()
+    images = [] # Store images corresponding to the correct test
+    for readingImagePath in os.listdir('images'):
+        if 'reading' in readingImagePath and ('.jpg' in imagePath or '.png' in imagePath):
+            images.append('images/'+readingImagePath)
+
+    faceImagePath = np.random.choice(images)
+    reading.main(readingImagePath)
 
 def startFace():
-    face.main()
-#===================================
-# Commands for a File tab in the window
-def NewFile():
-    print ("New File!")
-def OpenFile():
-    name = askopenfilename()
-    print(name)
-def About():
-    print ("We'll tell you some stuff about us later")
-#===================================
+    images = [] # Store images corresponding to the correct test
+    for faceImagePath in os.listdir('images'):
+        if 'face' in faceImagePath and ('.jpg' in imagePath or '.png' in imagePath):
+            images.append('images/'+readingImagePath)
+    faceImagePath = np.random.choice(images)
+    face.main(faceImagePath)
+
+def startAnalysis():
+    analysisLauncer.loadLists()
 
 def startup():
-    global root, menu
-
-    root.config(menu=menu)
-    filemenu = Menu(menu)
-    menu.add_cascade(label="File", menu=filemenu)
-    filemenu.add_command(label="New", command=NewFile)
-    filemenu.add_command(label="Open...", command=OpenFile)
-    filemenu.add_separator()
-    filemenu.add_command(label="Exit", command=root.quit)
-
-    helpmenu = Menu(menu)
-    menu.add_cascade(label="Help", menu=helpmenu)
-    helpmenu.add_command(label="About...", command=About)
+    global root
 
     #====================================================
     # Add buttons to perform each task
@@ -52,12 +44,12 @@ def startup():
     readingButton = Button(root, text='Reading', command = startReading)
     imageButton = Button(root, text='View Images', command = viewImages)
     faceButton = Button(root, text='Face Test', command = startFace)
+    #analyzeButon = Button(root, text='Perform Analysis',commmand = startAnalysis)
 
     animationButton.pack()
     readingButton.pack()
     imageButton.pack()
     faceButton.pack()
-
 
     mainloop()
 

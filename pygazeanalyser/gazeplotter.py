@@ -79,7 +79,7 @@ matplotlib.rc('font', **FONT)
 # # # # #
 # FUNCTIONS
 
-def draw_fixations(fixations, dispsize, imagefile=None, durationsize=True, durationcolour=True, alpha=0.5, savefilename=None):
+def draw_fixations(fix, dispsize, imagefile=None, durationsize=True, durationcolour=True, alpha=0.5, savefilename=None):
 
 	"""Draws circles on the fixation locations, optionally on top of an image,
 	with optional weigthing of the duration for circle size and colour
@@ -116,9 +116,6 @@ def draw_fixations(fixations, dispsize, imagefile=None, durationsize=True, durat
 	fig			-	a matplotlib.pyplot Figure instance, containing the
 					fixations
 	"""
-
-	# FIXATIONS
-	fix = parse_fixations(fixations)
 
 	# IMAGE
 	fig, ax = draw_display(dispsize, imagefile=imagefile)
@@ -395,9 +392,8 @@ def draw_display(dispsize, imagefile=None):
 		# x and y position of the image on the display
 		x = dispsize[0]//2 - w//2
 		y = dispsize[1]//2 - h//2
-		print('x = %d', x)
-		print('y = %d', y)
 		# draw the image on the screen
+		# print(screen[int(y):int(y+h),int(x):int(x+w),1].shape)
 		screen[int(y):int(y+h),int(x):int(x+w)] += img
 	# dots per inch
 	dpi = 100.0

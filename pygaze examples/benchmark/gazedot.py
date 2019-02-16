@@ -21,7 +21,7 @@ RUNS = 1001
 disp = display.Display()
 
 # create eyetracker object
-tracker = eyetracker.EyeTracker(disp)
+tracker = eyetracker.EyeTracker(disp, trackertype='dummy')
 
 # create keyboard object
 keyboard = keyboard.Keyboard(keylist=['space'], timeout=None)

@@ -5,15 +5,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 from matplotlib.colors import LinearSegmentedColormap
-from win32api import GetSystemMetrics # Assuming test is performed on same size laptop!!!
+from win32api import GetSystemMetrics   # Assuming test is performed on same size laptop!!!
 import os
 from pygazeanalyser import gazeplotter
-import scipy.stats
 
-
-def loadData():
+def loadData(dataPath):
     # Collect samps frames from the example files
-    samps, events = load_eyelink_dataset('sample_data/bino1000.asc')
+    samps, events = load_eyelink_dataset(dataPath)
     # Store event information about fixation and saccade
     fixation = events.dframes['EFIX']; saccade = events.dframes['ESACC']
 
@@ -33,8 +31,9 @@ def loadData():
 
     # Import all the images containing the word 'face' and choose a random one
 
-
     return pos, fixation, saccade # note that fixation and saccade are dframes
+
+
 
 # Actually perform the data analysis
 # @POS = numpy array of positions stored (x,y)
@@ -45,10 +44,6 @@ def analyze(testName, POS, FIX, SACC):
     # We'll need gaussian distributions later
     def gaussian(x, mu, sig):
         return (1/(sig*np.sqrt(2*np.pi)))*np.exp(-.5*np.power((x - mu)/sig, 2.))
-
-    def reverseGaussian(y, mu, sig):
-        return np.sqrt(-np.log(2(sig**2*y/mu)))
-    # Calculate probability from normal distribution
 
     if testName == 'reading':
         sentences = 12 # Both of our examples have 12 sentences
@@ -80,6 +75,7 @@ def analyze(testName, POS, FIX, SACC):
         poor_dist = np.array([])
         my_dist = np.array([])
 
+        # Plot gaussians over the given range for dyslexic, control, and results
         x = np.arange(100, 500, 1)
         plt.plot(x, gaussian(x, good_MFD, sigma_good_MFD), label='Normal Readers')
         plt.plot(x, gaussian(x, poor_MFD, sigma_good_MFD), label='Dyslexic Readers')
@@ -97,24 +93,15 @@ def analyze(testName, POS, FIX, SACC):
     else:
         print("Invalid test name '%s'", testName)
 
-def main(testName):
+def main(testName, dataPath, imagePath='images/white_background.jpg'):
     # Call loadData() and save results
-    pos, fixations, saccade = loadData()   # Eventually this could use inputs to specify data
+    pos, fixations, saccade = loadData(dataPath)   # Eventually this could use inputs to specify data
 
     leftEyeFrame = fixations.loc[fixations['eye'] == 'L'] # Filter only the rows for the left eye
     durations = leftEyeFrame['duration'].values
     xPositions = leftEyeFrame['x_pos'].values
     yPositions = leftEyeFrame['y_pos'].values
     fixDurations = leftEyeFrame['duration'].values
-
-    images = [] # Store images corresponding to the correct test
-    for imagePath in os.listdir('images'):
-        if testName in imagePath and ('.jpg' in imagePath or '.png' in imagePath):
-            images.append(imagePath)
-
-    myImagePath = np.random.choice(images)
-    backgroundImage = Image.open('images/' + myImagePath) # Choose a random, relevant image
-
 
     """
     fix		-	a dict with three keys: 'x', 'y', and 'dur' (each contain
@@ -128,11 +115,15 @@ def main(testName):
         'dur': fixDurations
         }
 
-    fig = gazeplotter.draw_heatmap(fix, [GetSystemMetrics(1), GetSystemMetrics(0)], imagefile='images/musk_face.jpg')
+    try:
+        fig = gazeplotter.draw_heatmap(fix, [GetSystemMetrics(0), GetSystemMetrics(1)], imagefile=imagePath)
+    except ValueError as e:
+        fig = gazeplotter.draw_heatmap(fix, [GetSystemMetrics(1), GetSystemMetrics(0)], imagefile=imagePath)
+
+
     plt.show()
 
+    analyze(testName, pos, fixations, saccade)
 
-    analyze('reading', pos, fixations, saccade)
 
-
-main('reading')
+#main('reading', 'sample_data/bino1000.asc', 'images/crab_reading.png')

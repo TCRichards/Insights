@@ -24,6 +24,3 @@ listbox = Listbox(master, selectmode=SINGLE)
 listbox.pack()
 #selectButton = Button(master,text='select',command=openImage)
 #selectButton.pack()
-
-
-main()

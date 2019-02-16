@@ -14,7 +14,7 @@ disp = Display()
 scr = Screen()
 
 # eye tracking
-tracker = EyeTracker(disp)
+tracker = EyeTracker(disp, trackertype='dummy')
 frl = FRL(pos='center', dist=125, size=200)
 
 # input collection and storage
