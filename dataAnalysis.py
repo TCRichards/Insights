@@ -97,7 +97,7 @@ def analyze(testName, POS, FIX, SACC):
     else:
         print("Invalid test name '%s'", testName)
 
-def main():
+def main(testName):
     # Call loadData() and save results
     pos, fixations, saccade = loadData()   # Eventually this could use inputs to specify data
 
@@ -107,11 +107,14 @@ def main():
     yPositions = leftEyeFrame['y_pos'].values
     fixDurations = leftEyeFrame['duration'].values
 
-    faces = []
+    images = [] # Store images corresponding to the correct test
     for imagePath in os.listdir('images'):
-        if 'face' in imagePath and ('.jpg' in imagePath or '.png' in imagePath):
-            faces.append(imagePath)
-    backgroundImage = Image.open('images/' + np.random.choice(faces))
+        if testName in imagePath and ('.jpg' in imagePath or '.png' in imagePath):
+            images.append(imagePath)
+
+    myImagePath = np.random.choice(images)
+    backgroundImage = Image.open('images/' + myImagePath) # Choose a random, relevant image
+
 
     """
     fix		-	a dict with three keys: 'x', 'y', and 'dur' (each contain
@@ -132,4 +135,4 @@ def main():
     analyze('reading', pos, fixations, saccade)
 
 
-main()
+main('reading')

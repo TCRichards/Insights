@@ -15,7 +15,8 @@ def openImage():
 def main():
     global listbox
     for imagePath in os.listdir('images'):
-        listbox.insert(END, imagePath)
+        if '.jpg' in imagePath or '.png' in imagePath:
+            listbox.insert(END, imagePath)
     mainloop()
 
 master = Tk()
