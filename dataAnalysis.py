@@ -7,13 +7,16 @@ from PIL import Image
 from matplotlib.colors import LinearSegmentedColormap
 from win32api import GetSystemMetrics # Assuming test is performed on same size laptop!!!
 import os
+from pygazeanalyser import gazeplotter
+import scipy.stats
 
 
 def loadData():
     # Collect samps frames from the example files
     samps, events = load_eyelink_dataset('sample_data/bino1000.asc')
     # Store event information about fixation and saccade
-    EFIX = events.dframes['EFIX']; ESACC = events.dframes['ESACC']
+    fixation = events.dframes['EFIX']; saccade = events.dframes['ESACC']
+
     # Not using but could access 'start', 'end', 'msg' data as well
 
     # Clean the data using cili's built-in functions
@@ -29,65 +32,104 @@ def loadData():
     pos = pos_l             # Only consider left eye (for now?)
 
     # Import all the images containing the word 'face' and choose a random one
+
+
+    return pos, fixation, saccade # note that fixation and saccade are dframes
+
+# Actually perform the data analysis
+# @POS = numpy array of positions stored (x,y)
+# @FIX = dataframe of fixations
+# @SACC = dataframe array of saccades
+def analyze(testName, POS, FIX, SACC):
+
+    # We'll need gaussian distributions later
+    def gaussian(x, mu, sig):
+        return (1/(sig*np.sqrt(2*np.pi)))*np.exp(-.5*np.power((x - mu)/sig, 2.))
+
+    def reverseGaussian(y, mu, sig):
+        return np.sqrt(-np.log(2(sig**2*y/mu)))
+    # Calculate probability from normal distribution
+
+    if testName == 'reading':
+        sentences = 12 # Both of our examples have 12 sentences
+        '''
+        Let's assume fixation times follow a normal distribution
+        Mean times and SD are taken from https://www.sciencedirect.com/science/article/pii/S0093934X03004012
+        MFD -> Mean fixation duration (ms)
+        FPN -> Fixations per item (sentence)
+        '''
+        good_MFD = 192
+        sigma_good_MFD = 34
+        good_FPN = 0.83
+        sigma_good_FPN = 0.20
+
+        poor_MFD = 367
+        sigma_poor_MFD = 132
+        poor_FPN = 1.53
+        sigma_poor_FPN = 0.20
+
+        leftEyeFrame = FIX.loc[FIX['eye'] == 'L'] # Filter only the rows for the left eye
+        durations = leftEyeFrame['duration'].values
+        positions = leftEyeFrame.values[:,4:6]
+
+        my_MFD = np.mean(durations)
+        sigma_my_MFD = np.std(durations)
+
+        # Generate two fictitious 'datasets' using a normal distribution
+        good_dist = np.array([])
+        poor_dist = np.array([])
+        my_dist = np.array([])
+
+        x = np.arange(100, 500, 1)
+        plt.plot(x, gaussian(x, good_MFD, sigma_good_MFD), label='Normal Readers')
+        plt.plot(x, gaussian(x, poor_MFD, sigma_good_MFD), label='Dyslexic Readers')
+        plt.plot(x, gaussian(x, my_MFD, sigma_good_MFD), label='Results')
+        plt.title('Fixation Times Relative to Study')
+        plt.xlabel('Mean Fixation Time (ms)')
+        plt.ylabel('Probability')
+        plt.legend()
+        plt.show()
+
+    elif testName == 'face':
+        print('analyzing face results')
+    elif testName == 'animation':
+        print('analyzing animation results')
+    else:
+        print("Invalid test name '%s'", testName)
+
+def main():
+    # Call loadData() and save results
+    pos, fixations, saccade = loadData()   # Eventually this could use inputs to specify data
+
+    leftEyeFrame = fixations.loc[fixations['eye'] == 'L'] # Filter only the rows for the left eye
+    durations = leftEyeFrame['duration'].values
+    xPositions = leftEyeFrame['x_pos'].values
+    yPositions = leftEyeFrame['y_pos'].values
+    fixDurations = leftEyeFrame['duration'].values
+
     faces = []
     for imagePath in os.listdir('images'):
-        if 'face' in imagePath:
+        if 'face' in imagePath and ('.jpg' in imagePath or '.png' in imagePath):
             faces.append(imagePath)
     backgroundImage = Image.open('images/' + np.random.choice(faces))
 
-    return backgroundImage, pos
+    """
+    fix		-	a dict with three keys: 'x', 'y', and 'dur' (each contain
+                a numpy array) for the x and y coordinates and duration of
+                each fixation
+    """
 
+    fix = {
+        'x': xPositions,
+        'y': yPositions,
+        'dur': fixDurations
+        }
 
-# Call loadData() and save results
-backgroundImage, pos = loadData()   # Eventually this could use inputs to specify data
-
-def getHeatMap():
-    global backgroundImage, pos
-    #===============================================================
-    # returns a 2D matrix where each position corresponds to a 'heat'
-    h, w = backgroundImage.size # Returns the size in pixels
-    # Create a mesh grid over the entire space
-    x_gridpoints = w
-    y_gridpoints = h
-    mesh = np.zeros((x_gridpoints, y_gridpoints))
-    # Define the width and height of each grid point
-    MIN_X = np.min(pos[:,0])
-    MAX_X = np.max(pos[:,0])
-    MIN_Y = np.min(pos[:,1])
-    MAX_Y = np.max(pos[:,1])
-
-    pos[:,0] = (pos[:,0] - MIN_X)*(w/MAX_X)
-    pos[:,1] = (pos[:,1] - MAX_Y)*(h/MAX_Y)
-
-    dx = MAX_X/x_gridpoints
-    dy = MAX_Y/y_gridpoints
-
-    for loc in pos:
-        try:
-            xGrid = int(loc[0]//dx)
-            yGrid = int(loc[1]//dy)
-            mesh[xGrid-5:xGrid+5, yGrid-5:yGrid+5] += 1     # Increment the area around the grid point containing the point
-        except IndexError as e:
-            print('Index error because of location ' + str(loc))
-            continue
-
-    #===============================================================
-
-    ncolors = 256
-    color_array = plt.get_cmap('hot')(range(ncolors))
-    # change alpha values
-    color_array[:,-1] = np.linspace(1.0,0.0,ncolors)
-    # create a colormap object
-    map_object = LinearSegmentedColormap.from_list(name='hot_alpha',colors=color_array[::-1])
-    # register this new colormap with matplotlib
-    plt.register_cmap(cmap=map_object)
-
-    fig, ax = plt.subplots()
-    ax.imshow(backgroundImage)
-    cb = ax.contourf(mesh, cmap='hot_alpha')
-    plt.colorbar(cb)
-
+    fig = gazeplotter.draw_heatmap(fix, [GetSystemMetrics(1), GetSystemMetrics(0)], imagefile='images/musk_face.jpg')
     plt.show()
 
 
-getHeatMap()
+    analyze('reading', pos, fixations, saccade)
+
+
+main()

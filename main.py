@@ -1,12 +1,13 @@
 from tkinter import *
-import animation, imageWorker, reading
+# Import the tests
+import animation, imageWorker, reading, face
 
 # Instantiate the tkinter master object
 root = Tk()
 menu = Menu(root)
 #=================================
 # Opens the image configuration program
-def configureImage():
+def viewImages():
     imageWorker.main()
 #==================================
 # Runs the tests in a new fullscreen window
@@ -26,7 +27,7 @@ def OpenFile():
     name = askopenfilename()
     print(name)
 def About():
-    print ("This is a simple example of a menu")
+    print ("We'll tell you some stuff about us later")
 #===================================
 
 def startup():
@@ -44,16 +45,19 @@ def startup():
     menu.add_cascade(label="Help", menu=helpmenu)
     helpmenu.add_command(label="About...", command=About)
 
+    #====================================================
+    # Add buttons to perform each task
+
     animationButton = Button(root, text='Animation', command = startAnimation)
     readingButton = Button(root, text='Reading', command = startReading)
-    imageButton = Button(root, text='View Images', command = configureImage)
+    imageButton = Button(root, text='View Images', command = viewImages)
     faceButton = Button(root, text='Face Test', command = startFace)
-
 
     animationButton.pack()
     readingButton.pack()
     imageButton.pack()
     faceButton.pack()
+
 
     mainloop()
 

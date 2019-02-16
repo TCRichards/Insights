@@ -3,6 +3,9 @@ from tkinter import *
 from pygaze import screen
 import os
 
+'''
+All that this class does is provide a list of images present to the UI when called from main.py
+'''
 
 def openImage():
     path = listbox.curselection()
@@ -18,13 +21,8 @@ def main():
 master = Tk()
 listbox = Listbox(master, selectmode=SINGLE)
 listbox.pack()
-selectButton = Button(master,text='select',command=openImage)
-selectButton.pack()
-
-while kb.get_key()[0] == None:
-    continue # Intenional infinite loop
-scr.clear()
-disp.dispose()
+#selectButton = Button(master,text='select',command=openImage)
+#selectButton.pack()
 
 
 main()

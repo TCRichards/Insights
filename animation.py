@@ -4,17 +4,14 @@ from pygaze.eyetracker import EyeTracker
 from win32api import GetSystemMetrics
 import random
 
-width = GetSystemMetrics(0)
-height = GetSystemMetrics(1)
-
 def main():
 	# start timing
 	libtime.expstart()
 	# create keyboard object
 	kb = keyboard.Keyboard()
 	# display and screen object
-	disp = display.Display()
-	scr = screen.Screen()
+	disp = display.Display(dispsize = [GetSystemMetrics(0), GetSystemMetrics(1)])
+    scr = screen.Screen(dispsize = [GetSystemMetrics(0), GetSystemMetrics(1)])
 
 	MESSAGE = 'HELLO WORLD'
 

@@ -1,0 +1,328 @@
+EESchema Schematic File Version 4
+LIBS:simulatorTest-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L pspice:VSOURCE V1
+U 1 1 5BD24915
+P 3100 3400
+F 0 "V1" H 3328 3446 50  0000 L CNN
+F 1 "0.1" H 3328 3355 50  0000 L CNN
+F 2 "" H 3100 3400 50  0001 C CNN
+F 3 "" H 3100 3400 50  0001 C CNN
+F 4 "V" H 3100 3400 50  0001 C CNN "Spice_Primitive"
+F 5 "sin(2 5 1k)" H 3100 3400 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 3100 3400 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    3100 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3100 3700 3100 3900
+$Comp
+L power:GND #PWR?
+U 1 1 5BDBD6B6
+P 3100 3900
+F 0 "#PWR?" H 3100 3650 50  0001 C CNN
+F 1 "GND" H 3105 3727 50  0000 C CNN
+F 2 "" H 3100 3900 50  0001 C CNN
+F 3 "" H 3100 3900 50  0001 C CNN
+	1    3100 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 3000 3100 3000
+Wire Wire Line
+	3100 3000 3100 3100
+Wire Wire Line
+	4200 2100 5200 2100
+$Comp
+L Device:R R2
+U 1 1 5BDBD88D
+P 4200 1850
+F 0 "R2" H 4270 1896 50  0000 L CNN
+F 1 "10" H 4270 1805 50  0000 L CNN
+F 2 "" V 4130 1850 50  0001 C CNN
+F 3 "~" H 4200 1850 50  0001 C CNN
+	1    4200 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5BDBD942
+P 4200 1650
+F 0 "#PWR?" H 4200 1400 50  0001 C CNN
+F 1 "GND" H 4205 1477 50  0000 C CNN
+F 2 "" H 4200 1650 50  0001 C CNN
+F 3 "" H 4200 1650 50  0001 C CNN
+	1    4200 1650
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5200 2100 5200 2350
+Wire Wire Line
+	5200 2650 5200 2900
+$Comp
+L LF411:LF411 U1
+U 1 1 5BD24AE4
+P 4700 2900
+F 0 "U1" H 5241 2953 60  0000 L CNN
+F 1 "LF411" H 5241 2847 60  0000 L CNN
+F 2 "" H 4700 2900 60  0000 C CNN
+F 3 "" H 4700 2900 60  0000 C CNN
+F 4 "X" H 4700 2900 50  0001 C CNN "Spice_Primitive"
+F 5 "LF411C" H 4700 2900 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 4700 2900 50  0001 C CNN "Spice_Netlist_Enabled"
+F 7 "3 2 7 4 6" H 4700 2900 50  0001 C CNN "Spice_Node_Sequence"
+F 8 "C:\\Users\\tumuz\\OneDrive\\Research\\earthNMRSchematic\\Libraries\\LF411C.301" H 4700 2900 50  0001 C CNN "Spice_Lib_File"
+	1    4700 2900
+	1    0    0    1   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 5BDBE36C
+P 5200 2500
+F 0 "R3" H 5270 2546 50  0000 L CNN
+F 1 "1" H 5270 2455 50  0000 L CNN
+F 2 "" V 5130 2500 50  0001 C CNN
+F 3 "~" H 5200 2500 50  0001 C CNN
+	1    5200 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 2500 4600 1800
+$Comp
+L power:GND #PWR?
+U 1 1 5BDBE873
+P 4600 1000
+F 0 "#PWR?" H 4600 750 50  0001 C CNN
+F 1 "GND" H 4605 827 50  0000 C CNN
+F 2 "" H 4600 1000 50  0001 C CNN
+F 3 "" H 4600 1000 50  0001 C CNN
+	1    4600 1000
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4600 1200 4600 1000
+$Comp
+L pspice:VSOURCE V3
+U 1 1 5BDBE86B
+P 4600 1500
+F 0 "V3" H 4828 1546 50  0000 L CNN
+F 1 "-9" H 4828 1455 50  0000 L CNN
+F 2 "" H 4600 1500 50  0001 C CNN
+F 3 "" H 4600 1500 50  0001 C CNN
+F 4 "V" H 4600 1500 50  0001 C CNN "Spice_Primitive"
+F 5 "dc -9" H 4600 1500 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 4600 1500 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    4600 1500
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4600 3450 4600 3300
+$Comp
+L power:GND #PWR?
+U 1 1 5BDBE7BD
+P 4600 4250
+F 0 "#PWR?" H 4600 4000 50  0001 C CNN
+F 1 "GND" H 4605 4077 50  0000 C CNN
+F 2 "" H 4600 4250 50  0001 C CNN
+F 3 "" H 4600 4250 50  0001 C CNN
+	1    4600 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 4050 4600 4250
+$Comp
+L pspice:VSOURCE V2
+U 1 1 5BDBE7B5
+P 4600 3750
+F 0 "V2" H 4828 3796 50  0000 L CNN
+F 1 "9" H 4828 3705 50  0000 L CNN
+F 2 "" H 4600 3750 50  0001 C CNN
+F 3 "" H 4600 3750 50  0001 C CNN
+F 4 "V" H 4600 3750 50  0001 C CNN "Spice_Primitive"
+F 5 "dc 9" H 4600 3750 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 4600 3750 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    4600 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L pspice:VSOURCE V12
+U 1 1 5BDC1D9B
+P 900 5600
+F 0 "V12" H 1128 5646 50  0000 L CNN
+F 1 "5" H 1128 5555 50  0000 L CNN
+F 2 "" H 900 5600 50  0001 C CNN
+F 3 "" H 900 5600 50  0001 C CNN
+F 4 "V" H 900 5600 50  0001 C CNN "Spice_Primitive"
+F 5 "sin(2 5 1k)" H 900 5600 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 900 5600 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    900  5600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	900  5900 900  6100
+$Comp
+L power:GND #PWR?
+U 1 1 5BDC1DA3
+P 900 6100
+F 0 "#PWR?" H 900 5850 50  0001 C CNN
+F 1 "GND" H 905 5927 50  0000 C CNN
+F 2 "" H 900 6100 50  0001 C CNN
+F 3 "" H 900 6100 50  0001 C CNN
+	1    900  6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5BDC1DE3
+P 2100 7100
+F 0 "#PWR?" H 2100 6850 50  0001 C CNN
+F 1 "GND" H 2105 6927 50  0000 C CNN
+F 2 "" H 2100 7100 50  0001 C CNN
+F 3 "" H 2100 7100 50  0001 C CNN
+	1    2100 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2100 6900 2100 7100
+$Comp
+L pspice:VSOURCE V10
+U 1 1 5BDC1DED
+P 2100 6600
+F 0 "V10" H 2328 6646 50  0000 L CNN
+F 1 "-9" H 2328 6555 50  0000 L CNN
+F 2 "" H 2100 6600 50  0001 C CNN
+F 3 "" H 2100 6600 50  0001 C CNN
+F 4 "V" H 2100 6600 50  0001 C CNN "Spice_Primitive"
+F 5 "dc -9" H 2100 6600 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 2100 6600 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    2100 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5BDC1DF5
+P 2050 3250
+F 0 "#PWR?" H 2050 3000 50  0001 C CNN
+F 1 "GND" H 2055 3077 50  0000 C CNN
+F 2 "" H 2050 3250 50  0001 C CNN
+F 3 "" H 2050 3250 50  0001 C CNN
+	1    2050 3250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2050 3450 2050 3250
+$Comp
+L pspice:VSOURCE V11
+U 1 1 5BDC1DFF
+P 2050 3750
+F 0 "V11" H 2278 3796 50  0000 L CNN
+F 1 "9" H 2278 3705 50  0000 L CNN
+F 2 "" H 2050 3750 50  0001 C CNN
+F 3 "" H 2050 3750 50  0001 C CNN
+F 4 "V" H 2050 3750 50  0001 C CNN "Spice_Primitive"
+F 5 "dc 9" H 2050 3750 50  0001 C CNN "Spice_Model"
+F 6 "Y" H 2050 3750 50  0001 C CNN "Spice_Netlist_Enabled"
+	1    2050 3750
+	-1   0    0    1   
+$EndComp
+$Comp
+L LT1007CN8:LT1007CN8PBF U2
+U 1 1 5BDC2A1B
+P 2900 5150
+F 0 "U2" H 2900 5920 50  0000 C CNN
+F 1 "LT1007CN8PBF" H 2900 5829 50  0000 C CNN
+F 2 "DIP254P762X393-8" H 2900 5150 50  0001 L BNN
+F 3 "None" H 2900 5150 50  0001 L BNN
+F 4 "Linear Technology" H 2900 5150 50  0001 L BNN "Field4"
+F 5 "PDIP-8 Linear Technology" H 2900 5150 50  0001 L BNN "Field5"
+F 6 "LT1007 - Low Noise, High Speed Precision Operational Amplifiers" H 2900 5150 50  0001 L BNN "Field6"
+F 7 "Unavailable" H 2900 5150 50  0001 L BNN "Field7"
+F 8 "LT1007CN8#PBF" H 2900 5150 50  0001 L BNN "Field8"
+	1    2900 5150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 5750 2100 5750
+Wire Wire Line
+	2100 5750 2100 6300
+Wire Wire Line
+	2200 4750 2050 4750
+Wire Wire Line
+	2050 4750 2050 4050
+Wire Wire Line
+	3600 4750 3600 4250
+Wire Wire Line
+	1600 5050 2200 5050
+Wire Wire Line
+	900  4950 2200 4950
+$Comp
+L Device:R R11
+U 1 1 5BDC81FA
+P 2750 4250
+F 0 "R11" V 2543 4250 50  0000 C CNN
+F 1 "10k" V 2634 4250 50  0000 C CNN
+F 2 "" V 2680 4250 50  0001 C CNN
+F 3 "~" H 2750 4250 50  0001 C CNN
+	1    2750 4250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1600 4250 1300 4250
+$Comp
+L Device:R R10
+U 1 1 5BDCA220
+P 1150 4250
+F 0 "R10" V 943 4250 50  0000 C CNN
+F 1 "10k" V 1034 4250 50  0000 C CNN
+F 2 "" V 1080 4250 50  0001 C CNN
+F 3 "~" H 1150 4250 50  0001 C CNN
+	1    1150 4250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1000 4250 750  4250
+$Comp
+L power:GND #PWR?
+U 1 1 5BDCC7B9
+P 750 4250
+F 0 "#PWR?" H 750 4000 50  0001 C CNN
+F 1 "GND" V 755 4122 50  0000 R CNN
+F 2 "" H 750 4250 50  0001 C CNN
+F 3 "" H 750 4250 50  0001 C CNN
+	1    750  4250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	900  4950 900  5300
+Wire Wire Line
+	1600 4250 1600 5050
+Wire Wire Line
+	1600 4250 2600 4250
+Connection ~ 1600 4250
+Wire Wire Line
+	2900 4250 3600 4250
+Text Notes 1550 1350 0    50   ~ 0
+This should be  a non-inverting circuit with a gain of 2.  \nI can't get any signal out of this at all, however.
+Wire Wire Line
+	4200 1700 4200 1650
+Wire Wire Line
+	4200 2100 4200 2000
+Connection ~ 4200 2100
+Wire Wire Line
+	4200 2100 4200 2800
+NoConn ~ 4400 2150
+$EndSCHEMATC
