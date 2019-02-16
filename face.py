@@ -3,12 +3,13 @@ from pygaze import display, screen, keyboard
 from pygaze import eyetracker
 from win32api import GetSystemMetrics
 import sys
-import pylink
+import cv2
 import os
 
 
 
 def main(imagePath):
+
 	# start timing
 	libtime.expstart()
 	# create keyboard object
@@ -17,12 +18,14 @@ def main(imagePath):
 	disp = display.Display(dispsize = [GetSystemMetrics(0), GetSystemMetrics(1)])
 	scr = screen.Screen(dispsize = [GetSystemMetrics(0), GetSystemMetrics(1)])
 
+	'''
+	Screw pylink.  This library is impossible
 	tracker = pylink.EyeLink("100.1.1.1")
+	'''
 
 	# eyelink calibration
 	#eyetracker.calibrate()
 
-	scr.draw_image(imagePath, colour=col, pos=pos, fontsize=84)
 	disp.fill(scr)
 
 
@@ -32,4 +35,4 @@ def main(imagePath):
 
 	disp.close()
 
-main('images/white_background.jpg')
+#main('images/white_background.jpg')

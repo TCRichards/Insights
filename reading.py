@@ -1,14 +1,15 @@
-from pygaze import libtime
-from pygaze import display, screen, keyboard
-from pygaze.eyetracker import EyeTracker
 from win32api import GetSystemMetrics
 import numpy as np
+from tkinter import *
+from PIL import Image, ImageTk
+
 
 # This doesn't really do anything anymore
 
 
 def main(imagePath):
 
+    '''
     libtime.expstart()
 	# create keyboard object
     kb = keyboard.Keyboard()
@@ -19,10 +20,10 @@ def main(imagePath):
 
 	# Wait to initilaze eye tracker until plugged in
 	# create eyelink object
-    eyetracker = EyeTracker(disp, trackertype='dummy')
+    #eyetracker = EyeTracker(disp, trackertype='dummy')
 
 	# eyelink calibration
-    eyetracker.calibrate()
+    #eyetracker.calibrate()
 
     scr.draw_image(imagePath)
 
@@ -31,3 +32,21 @@ def main(imagePath):
         disp.close()
         eyetracker.close()
         libtime.expend()
+
+    # start timing
+    #libtime.expstart()
+    '''
+
+    master = Tk()
+    master.geometry('1536x864')
+    canvas = Canvas(master)
+    readImage = Image.open(imagePath)
+    photoImage = ImageTk.PhotoImage(readImage)
+    label = Label(canvas, image=photoImage)
+    label.image=photoImage
+    label.pack()
+    #imagesprite = canvas.create_image(GetSystemMetrics(0),GetSystemMetrics(1),image=photoImage)
+    mainloop()
+
+
+main('images/oregontrail_reading_1.jpg')

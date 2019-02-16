@@ -41,7 +41,7 @@ def loadData(dataPath):
 # @SACC = dataframe array of saccades
 def analyze(testName, POS, FIX, SACC):
 
-    # We'll need gaussian distributions later
+    # We'll need gaussian distributions later for plotting
     def gaussian(x, mu, sig):
         return (1/(sig*np.sqrt(2*np.pi)))*np.exp(-.5*np.power((x - mu)/sig, 2.))
 
@@ -75,14 +75,15 @@ def analyze(testName, POS, FIX, SACC):
         poor_dist = np.array([])
         my_dist = np.array([])
 
-        # Plot gaussians over the given range for dyslexic, control, and results
+        # Plot Gaussians over the given range for dyslexic, control, and results
         x = np.arange(100, 500, 1)
         plt.plot(x, gaussian(x, good_MFD, sigma_good_MFD), label='Normal Readers')
         plt.plot(x, gaussian(x, poor_MFD, sigma_good_MFD), label='Dyslexic Readers')
-        plt.plot(x, gaussian(x, my_MFD, sigma_good_MFD), label='Results')
-        plt.title('Fixation Times Relative to Study')
+        plt.plot(x, gaussian(x, my_MFD, sigma_good_MFD), label='Our Trial')
+        plt.title('Fixation Times Relative to Literature')
         plt.xlabel('Mean Fixation Time (ms)')
-        plt.ylabel('Probability')
+        plt.ylabel('Probability Density')
+        plt.xlim(100, 500)
         plt.legend()
         plt.show()
 
@@ -126,4 +127,4 @@ def main(testName, dataPath, imagePath='images/white_background.jpg'):
     analyze(testName, pos, fixations, saccade)
 
 
-#main('reading', 'sample_data/bino1000.asc', 'images/crab_reading.png')
+main('reading', 'sample_data/bino1000.asc', 'images/crab_reading.jpg')

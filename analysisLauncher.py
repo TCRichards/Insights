@@ -70,3 +70,5 @@ dataButton = Button(master,text='Select Data',command=continueToImages)
 testName = ''
 dataPath = ''
 ImagePath = ''
+
+#loadLists()
