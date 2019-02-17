@@ -1,0 +1,45 @@
+// Com_SDL__core_graphics.idl : IDL source for Com_SDL__core_graphics.dll
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (Com_SDL__core_graphics.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "calibration.idl";
+ 
+
+ 
+	[
+		object,
+		uuid(3B2F0EB0-ADEF-40BA-B2A2-BD7E904AE722),
+		dual,
+		helpstring("ISDLCoreGraphics Interface"),
+		pointer_default(unique)
+	]
+	interface ISDLCoreGraphics : ICalibration
+	{
+		HRESULT setVideoMode(int width, int height, int bpp, int refresh); 
+		HRESULT setForeground(int r, int g, int b); 	
+		HRESULT setBackground(int r, int g, int b);
+	};
+
+[
+	uuid(0E0C52FB-E1FE-4F69-8CB4-6A873A0E5F2C),
+	version(1.0),
+	helpstring("Com_SDL__core_graphics 1.0 Type Library")
+]
+library COM_SDL__CORE_GRAPHICSLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	[
+		uuid(5A01E0D6-A278-4C47-8218-D1CD246D28C0),
+		helpstring("SDLCoreGraphics Class")
+	]
+	coclass SDLCoreGraphics
+	{
+		[default] interface ISDLCoreGraphics;
+	};
+};

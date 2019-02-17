@@ -1,0 +1,175 @@
+[
+	oleautomation,
+	object,
+	uuid(5A47633B-0108-4F75-835C-CEE026626184),
+	dual,
+	helpstring("ICalibration Interface"),
+	pointer_default(unique)
+]
+/*!
+\brief ICalibration is an interface that would be implemented by one to display camera image and 
+present calibration targets to do calibration/validataion and drift correct.
+
+In addition to display, this interface can also support playing audio clips 
+for calibration procedure and collect input keys.
+*/
+interface ICalibration : IDispatch
+{
+/*!
+Enumeration used with playCalibrationBeep to direct the 
+calibration interface to play a particular audio clip.
+*/
+	typedef [v1_enum] enum CAL_BEEP_ID {
+		CAL_ERR_BEEP   =-1, /*!< Beep for calibration error */
+		DC_ERR_BEEP    =-2, /*!< Beep for drift correct error */
+		CAL_GOOD_BEEP  = 0, /*!< Beep for calibration good */
+		CAL_TARG_BEEP  = 1, /*!< Beep for calibration target */
+		DC_GOOD_BEEP   = 2, /*!< Beep for drift correct good */
+		DC_TARG_BEEP   = 3  /*!< Beep for drift correct target */
+	} CAL_BEEP_ID;
+
+/*!
+This is called just before entering in to calibration mode. 
+Normally, setup anything that are needed to draw targets. 
+*/
+	HRESULT setupCalibrationDisplay();  
+
+
+/*!
+This is called to clear the calibration display. If double buffer 
+is used, display should be flushed as well. 
+*/
+	HRESULT clearCalibrationDisplay();      
+
+/*!
+This is called to draw the calibration target. If double buffer 
+is used, display should be flushed as well. 
+@param x x position of the target
+@param y y position of the target
+*/
+	HRESULT drawCalibrationTarget([in]short x, [in]short y);
+
+/*!
+This is called to erase the target, that was drawn by the call 
+to drawCalibrationTarget last time around. 
+*/
+	HRESULT eraseCalibrationTarget();         
+
+/*!
+This is called just before leaving the calibration mode. Normally, 
+release anything that are allocated on setupCalibrationDisplay. 
+*/
+	HRESULT exitCalibrationDisplay();   
+	
+
+/*!
+Setup the display for image drawing.  This is called just 
+before sending camera image to display 
+@param width  width of the incoming image
+@param height height of the incoming image
+*/
+	HRESULT setupImageDisplay([in]short width, [in]short height);
+
+/*!
+This is called when ever there is a frame ready to be displayed.  Example implementation using SDL:
+\code
+long lWidth = -1;
+long lHeight = -2;
+
+// Note: the width and hegith of IPicture will not match with the sizes given in setupImageDisplay
+cameraImage->get_Width(&lWidth); // get the width
+cameraImage->get_Height(&lHeight); // get the height 
+
+HRESULT rv = cameraImage->Render(dc, 0, 0, width, height,0, 0, lWidth, lHeight, 0); // draw the image to the dc(magnified)
+if (!SUCCEEDED(rv))	return rv;
+
+// Now we have the rendered image in bmpBits. So, we copy the memory to image
+
+if (SDL_MUSTLOCK(image)) SDL_LockSurface(image); // lock image if need to
+ // since our sdl image and the bitmap match in dimension and depth we can just do a single memcpy and not go through line by line
+ memcpy(image->pixels,bmpBits,(width * 4*height)); 
+ if (SDL_MUSTLOCK(image)) SDL_UnlockSurface(image);// unlock image if need to
+ 
+
+ SDL_Rect dst = {(screen->w-image->w)/2,(screen->h-image->h)/2,0,0}; 
+ SDL_BlitSurface(image,NULL,screen,&dst); // copy the image to the center
+ SDL_Flip(screen); // display the image
+\endcode
+@param cameraImage IPicture frame containing a frame of camera image.
+*/
+	HRESULT drawCameraImage([in] IPicture *cameraImage); 
+
+/*!
+This is called when ever there is a change in camera name or threshold
+@param threshold threshold value 
+@param crThreshold Corneal Reflection threshold
+@param camera Current active camera name 
+*/
+	HRESULT setImageTitle([in ]short threshold,[in ]short crThreshold, [in]BSTR camera); 
+
+/*!
+This is called just before leaving the camera image mode. Normally, 
+release anything that are allocated on setupImageDisplay.
+*/
+	HRESULT exitImageDisplay(); 
+
+/*!
+This is called when ever an audio need to be played. 
+The beepid specifies which beep to be played.
+@param beepid indicate which beep to be played. Possible values are:
+\code
+CAL_ERR_BEEP   =-1
+DC_ERR_BEEP    =-2
+CAL_GOOD_BEEP  = 0
+CAL_TARG_BEEP  = 1
+DC_GOOD_BEEP   = 2
+DC_TARG_BEEP   = 3
+\endcode
+*/
+	HRESULT playCalibrationBeep([in]CAL_BEEP_ID beepid);
+
+/*!
+This is called to check for input. If there is any keyboard 
+input, return a safe array with the input. 
+
+@param keyEvents a safe array of integers, each element of the array 
+describes a keyboard input event. The 32 bits of the integer is 
+formatted in the following way:
+\code
++---------+-------------+---------+
+|8bits    |8bits state  |16bit key|
++---------+-------------+---------+
+|1(always)|KEYDOWN/KEYUP|value    |
++---------+-------------+---------+
+
+Any special keys should return the following codes:
+
+EL_JUNK_KEY   =1,
+EL_F1_KEY     =0x3B00, 
+EL_F2_KEY     =0x3C00,
+EL_F3_KEY     =0x3D00,
+EL_F4_KEY     =0x3E00,
+EL_F5_KEY     =0x3F00,
+EL_F6_KEY     =0x4000,
+EL_F7_KEY     =0x4100,
+EL_F8_KEY     =0x4200,
+EL_F9_KEY     =0x4300,
+EL_F10_KEY    =0x4400,
+EL_PAGE_UP    =0x4900,
+EL_PAGE_DOWN  =0x5100,
+EL_CURS_UP    =0x4800,
+EL_CURS_DOWN  =0x5000,
+EL_CURS_LEFT  =0x4B00,
+EL_CURS_RIGHT =0x4D00,
+EL_ESC_KEY    =0x001B,
+EL_ENTER_KEY  =0x000D
+\endcode
+*/
+	HRESULT getInputKey([out,retval] SAFEARRAY(int) *keyEvents);
+/*!
+This function is called if abort of record. It is used to hide display from subject. 
+*/
+	HRESULT recordAbortHide();  
+	//HRESULT alertPrint(const char *dt);
+
+};

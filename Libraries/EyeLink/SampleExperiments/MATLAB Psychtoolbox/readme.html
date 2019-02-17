@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0058)file://localhost/Users/marcusjohnson/Downloads/readme.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" id="vbulletin_html"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<meta id="e_vb_meta_bburl" name="vb_meta_bburl" content="https://www.sr-support.com">
+<!--<base href="https://www.sr-support.com/">--><base href="."><!--[if IE]></base><![endif]-->
+<meta name="generator" content="vBulletin 4.2.0">
+	<meta name="keywords" content="matlab, eyelink, click, calibration, command, network, version, select, make, research, card, function, change, psychtoolbox, window, path, windows, data, host, ethernet, structure, download, address, start, error, display, variables, background, dlls, search, system, mode, check, enter, screen, support, settings, information, install, call, errors, mask, subnet, connection, button, toolbox, icon, properties, [psychtoolbox, eyelink.dll">
+	<meta name="description" content="Frans Cornelissen and Enno Peters have written the EyelinkToolbox to control the Eyelink system.
+
+The toolbox is a collection of m-files and a Mex file.
+
+Visit http://www.psychtoolbox.org/wikka.php?wakka=EyelinkToolbox for details.
+
+SR Research does not directly support this software, but are greatly appreciative of all the hard work Frans Cornelissen and Enno Peters have put into this effort.
+
+Note: The Matlab EyeLink toolbox uses the EyeLink C API that is supplied with the EyeLink">
+
+	<title>Matlab Psychtoolbox Readme</title>
+	<link rel="canonical" href="https://www.sr-support.com/showthread.php?19-EyeLink-MATLAB-Toolbox">
+
+</head>
+
+<body>
+<div class="body_wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="postlist" class="postlist restrain">
+
+
+
+	<form action="https://www.sr-support.com/inlinemod.php?threadid=19&p=" method="post" id="inlinemodform" name="inlinemodform">
+
+<li class="postbit postbitim postcontainer old" id="post_6873">
+
+
+	<div class="postbody">
+
+		<div class="postrow">
+
+
+
+
+
+
+
+
+		<div class="content">
+			<div id="post_message_6873">
+				<blockquote class="postcontent restore">
+<b>Eyelink Toolbox Psychtoolbox 3.0.11 FAQ</b><br />
+<br />
+Before reading this FAQ please note that it is highly recommended to keep your Psychtoolbox updated to the latest version. This in itself will resolve many errors. Please also note the Psychtoolbox 2 is no longer supported.<br />
+<br />
+To check which version you currently have run PsychtoolboxVersion in the Matlab command window<br />
+To update to the latest version run UpdatePsychtoolbox in the Matlab command window<br />
+<br />
+<b><u>How do I install PTB</u></b><br />
+<br />
+1. Install the Eyelink Development Kit from the SR Research support site for either OS X <a href="https://www.sr-support.com/forums/showthread.php?t=15" target="_blank">https://www.sr-support.com/forums/showthread.php?t=15</a> or Windows <a href="https://www.sr-support.com/showthread.php?6-Windows-Display-Software" target="_blank">https://www.sr-support.com/showthrea...splay-Software</a><br />
+<br />
+2. Install Matlab or GNU/Octave. The latest compatible version of Matlab or GNU/Octave are recommended by Psychtoolbox. <br />
+ <div style="margin-left:40px">       Linux: Matlab 7.4 or later, 32 or 64 Bit. 32 Bit or 64 Bit Octave 3.2.x.<br />
+    	Windows:32 Bit or 64 Bit Matlab 7.4 or later. You may need to install some Microsoft Visual C runtime libraries to make it work.<br />
+    	OSX:64bit Matlab, or 64bit Octave version3.6.</div>    	more detail information can be found at <a href="http://psychtoolbox.org/SystemRequirements" target="_blank">http://psychtoolbox.org/SystemRequirements</a><br />
+<br />
+3. Download Psychtoolbox-3 by following the steps at <a href="http://psychtoolbox.org/wikka.php?wakka=PsychtoolboxDownload" target="_blank">http://psychtoolbox.org/wikka.php?wa...oolboxDownload</a> alternatively, update to the latest version by running Updatepsychtoolbox in the MATLAB command window<br />
+<br />
+4. It is necessary that you reboot your computer now.<br />
+<br />
+5. To test, run the demo EyelinkBubbleDemo located in Applications&gt;Psychtoolbox&gt;PsychHardware&gt;EyelinkToo  lbox&gt;EyelinkDemos&gt;GazeContingentDemos<br />
+<br />
+6. If you have any issues during installation, please make sure you have all the system requirements listed in <a href="http://psychtoolbox.org/wikka.php?wakka=SystemRequirements" target="_blank">http://psychtoolbox.org/wikka.php?wa...emRequirements</a><br />
+<br />
+<b><u>FAQ</u></b><br />
+<br />
+1. How do I change calibration sounds and colours of the target<br />
+<br />
+<div style="margin-left:40px">The function that determines the settings and behaviour of the calibration screen abd everything from colour of targets and background, sounds, mouse and key triggers, is<br />
+<br />
+<b>     el=EyelinkInitDefaults(window);</b><br />
+<br />
+The fields of the el structure returned have all the information for the calibration on that window. However changing the el structure outside this call will have no affect as the structure needs to be passed to a call back function to take affect.<br />
+<br />
+There are two ways to change the settings in the calibration structure<br />
+<br />
+<div style="margin-left:40px">a. change the structure inside of the function <b>EyelinkInitDefaults.m</b> <br />
+b. change el after the call to EyelinkInitDefaults and then pass it through the callback once again</div><br />
+<div class="bbcode_container">
+	<div class="bbcode_description">Code:</div>
+	<pre class="bbcode_code"style="height:72px;">el.backgroundcolour = BlackIndex(el.window);     %Change el struct first
+if ~isempty(el.window) &amp; ~isempty(el.callback) %#ok&lt;AND2&gt;
+    PsychEyelinkDispatchCallback(el);     %then pass it to the callback
+end</pre>
+</div></div>2. The screen hangs as soon as I enter calibration<br />
+<div style="margin-left:40px"><br />
+Are you sending out any priority calls in your script? Calling <b>MaxPriority</b> will disconnect the link between the host PC and the Display PC after entering calibration. </div><br />
+3. The calibration targets are drawn off<br />
+<br />
+<div style="margin-left:40px">Please make sure you are sending the correct screen resolution in your code. You will need to send this Eyelink command to tell the host what resolution you are using on the display PC. Width and height are the display PCs width and height in pixels.<br />
+<br />
+<div class="bbcode_container">
+	<div class="bbcode_description">Code:</div>
+	<pre class="bbcode_code"style="height:36px;">     Eyelink('command','screen_pixel_coords = %ld %ld %ld %ld', 0, 0, width-1, height-1);</pre>
+</div></div><br />
+4. I am able to calibrate fine but my data looks off by a few pixels<br />
+<div style="margin-left:40px"><br />
+Are you calibrating with the same background luminance as the background in your trials? A change in luminance after calibration throws your data off. Please see FAQ # 1 on how to change the calibration background.<br />
+</div>5. Can I compile my program containing Psychtoolbox functions to executable files<br />
+<div style="margin-left:40px"><br />
+Yes, please refer to this post: <a href="http://tech.groups.yahoo.com/group/p...x/message/6470" target="_blank">http://tech.groups.yahoo.com/group/p...x/message/6470</a>. </div><br />
+6. Do you have any SR Research Eyelink demo?<br />
+<br />
+<div style="margin-left:40px">Yes, Please see the attached folders EyelinkPicture and linkData. linkData is a modification of EyelinkPicture that demonstrates how to parse events and samples through the link (from the host pc)<br />
+<br />
+ These example also demonstrates how to integrate Psychtoolbox with SR Research Data Viewer. Please also look at the section <br />
+<b><b>7 Protocol for EyeLink Data to Viewer Integration</b></b> from the Data Viewer manual at <a href="https://www.sr-support.com/forums/showthread.php?t=5" target="_blank">https://www.sr-support.com/forums/showthread.php?t=5</a>.<br />
+<br />
+There are also other Eyelink demos located at [psychtoolbox root]/PsychHardware/EyelinkToolbox/EyelinkDemos</div><br />
+7. I am not sure what a certain Eyelink toolbox function does<br />
+<br />
+<div style="margin-left:40px">you can retrieve the help information on any Eyelink function. For example, if  you would like to know what 'command' does, in the Matlab command window type the function name followed by a question mark</div><br />
+<div class="bbcode_container">
+	<div class="bbcode_description">Code:</div>
+	<pre class="bbcode_code"style="height:36px;">Eyelink('command?')</pre>
+</div>8. I get the error<br />
+<br />
+<div style="margin-left:40px"><div class="bbcode_container">
+	<div class="bbcode_description">Code:</div>
+	<pre class="bbcode_code"style="height:84px;">EyeLink: Initialize:  Cannot connect to EyeLink
+
+ans =
+
+  -201</pre>
+</div>Check that there is a secure connection between the display and host PC through a crossover ethernet cable and that you have the correct settings for the Ethernet connection. Make sure there are no hubs on the ethernet cable. The IP address should be 100.1.1.2 and the subnet mask 255.255.255.0 . We have also seen a few cases where Airport on Macs interferes with the connection, try switching this off.<br />
+<br />
+On Windows:<br />
+	<div style="margin-left:40px">1      From the Start menu select the Control Panel.<br />
+2.	Click on the Network and Internet Connections icon, and then select the network Connections icon. Check the list of installed components to make sure a network card is installed. If not, install a driver for the card.<br />
+3.	Double click on the network card icon that represents the network card that will be connected to the EyeLink 1000 Host PC.<br />
+4.	Select the properties button.<br />
+5. Check that “TCP/IP” is displayed in the list of components and that it is checked. If not, press the checkmark beside the option.<br />
+6. Select the “TCP/IP” component for the Ethernet card connected to the eye tracker PC, then click on the “Properties” button.<br />
+7. Select the “Use the following IP address” radio button. Enter the IP address of “100.1.1.2”. The last digit of the IP address can increase for other computers on the EyeLink network. Enter the subnet mask of “255.255.255.0”. Leave the default gateway and other setting blank.<br />
+8. Click on “OK” to return to the Properties dialog. Click “OK” again to save your changes. Click “Close” to exit from the network card dialog.</div><br />
+	On OS X:<br />
+<div style="margin-left:40px">1. Open System preferences<br />
+2. click on Network<br />
+3. click on the + sign and choose to create an Ethernet interface<br />
+4. for Configure Ipv4 select Manual<br />
+5. for IP Address add 100.1.1.2<br />
+6. for Subnet Mask add 255.255.255.0<br />
+7. click Apply</div></div><br />
+9. I get the error Invalid MEX-file<br />
+<div style="margin-left:40px"><br />
+You're going to have to do a bit of trial and error for this issue to be resolved.<br />
+<br />
+First of all make sure you have the Eyelink Development Kit from the SR Research support site for either OS X *<a href="https://www.sr-support.com/forums/showthread.php?t=15" target="_blank">https://www.sr-support.com/forums/showthread.php?t=15</a> or Windows *<a href="https://www.sr-support.com/forums/showthread.php?t=15" target="_blank">https://www.sr-support.com/forums/showthread.php?t=15</a> <br />
+<br />
+Steps that might help resolve this error:<br />
+<div style="margin-left:40px"><br />
+a. Download dependancy walker from this link: <a href="http://www.dependencywalker.com/" target="_blank">http://www.dependencywalker.com/</a>. Drag and drop your Eyelink.dll into dependancy walker. Missing dlls will be displayed. You can perform a web search and download missing dlls. Place these dlls in C:\Windows\System32<br />
+<br />
+b. In the Matlab command window run <br />
+<br />
+<b>which -all Eyelink</b><br />
+<br />
+find the location of eyelink.dll on your computer. right click on &quot;My Computer&quot;, &quot;Properties&quot;, &quot;Advanced&quot; tab, &quot;Environment Variables&quot;. Select the &quot;Path&quot; variables listed under &quot;System<br />
+Variables. Add the path of eyelink.dll to the variables, separate paths with a semicolon.<br />
+<br />
+If you are on Matlab R2007a and up choose File &gt; Set Path <br />
+make sure the folder [Psychtoolbox root]\PsychBasic\MatlabWindowsFilesR2007a is at the top of the search path. If you are on pre-2007 make sure [Psychtoolbox root]\PsychBasic\MatlabFilesR11 is at the top of the search path.<br />
+<br />
+c. Download MSVC runtime libraries from here: <a href="http://www.microsoft.com/downloads/en/details.aspx?familyid=200B2FD9-AE1A-4A14-984D-389C36F85647&amp;displaylang=en" target="_blank">http://www.microsoft.com/downloads/e...displaylang=en</a><br />
+<br />
+d. Try placing a copy of EYELINK_CORE.DLL into \Windows\System32 <br />
+<br />
+e. Run the SR Research version tool from Start menu &gt; SR Research &gt; Eyelink &gt; Utilities &gt; SR Version. This will show you the current dll's that are being loaded. If you see the wrong version that means that there is an older dll in the Windows search path or in your current directory that is being picked up instead.</div></div><br />
+<b><u>Known issues</u></b><br />
+<br />
+ETB does not accept fractional numbers in most Eyelink functions. Round the numbers. Use sprintf to format strings before passing them to Eyelink Message or Command. <br />
+<br />
+The try catch clause causes “Error in ==&gt; EyelinkInitDefaults at 295” in Matlab 2007 and earlier. Please see this post for more information: <a href="http://tech.groups.yahoo.com/group/psychtoolbox/message/11707" target="_blank">http://tech.groups.yahoo.com/group/p.../message/11707</a><br />
+<br />
+All new Macs ( macbook, mac mini, iMac) that do NOT use mini DisplayPorts are known to cause VBL sync errors in PTB in dual monitor setup.<br />
+<br />
+Nvidia 9400 and Nvidia 320m have been known to cause VBL sync errors. For more info on graphic requirements please see: <a href="http://psychtoolbox.org/wikka.php?wakka=GraphicsHardwareRequirements" target="_blank">http://psychtoolbox.org/wikka.php?wa...reRequirements</a>
+
+				</blockquote>
+			</div>
+
+
+			<div class="attachments">
+
+
+
+
+
+
+
+
+				<fieldset class="postcontent">
+					<legend>Attached Files</legend>
+					<ul>
+					<li>
+	<a href="https://www.sr-support.com/attachment.php?attachmentid=1716&d=1352141319">EyeLinkPicture.zip</a>
+(4.78 MB)
+</li><li>
+	<a href="https://www.sr-support.com/attachment.php?attachmentid=1146&d=1297879635">linkData.zip</a>
+(542.8 KB)
+</li>
+					</ul>
+				</fieldset>
+
+
+
+
+			</div>
+			<!-- / attachments -->
+
+
+
+		</div>
+
+
+
+			<!-- / edit note -->
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+
+</li>
+
+
+
+		</ol>
+
+
+
+
+		<input type="hidden" name="s" value="">
+		<input type="hidden" name="securitytoken" value="1363119113-2569ea25086b81c0b80bcf39a06c59c5b35066c0">
+		<input type="hidden" name="threadid" value="19">
+		<input type="hidden" name="p" value="">
+		<input type="hidden" name="url" value="/showthread.php?19-EyeLink-MATLAB-Toolbox">
+	</form>
+
+
+</div>
+
+
+<div class="content">
+			<div id="post_message_15726">
+				<blockquote class="postcontent restore">
+					Psychtoolbox with Matlab:<br />
+<br />
+<div class="cms_table"><table class="cms_table"><tr valign="top" class="cms_table_tr"><td class="cms_table_td">platform &amp; bit version</td>
+<td class="cms_table_td">mex</td>
+<td class="cms_table_td">mex location</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">windows 32bit</td>
+<td class="cms_table_td">Eyelink.mexw32</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics\MatlabWindowsFilesR2007a</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">windows 64bit</td>
+<td class="cms_table_td">Eyelink.mexw64</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics\MatlabWindowsFilesR2007a</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">Mac 64bit</td>
+<td class="cms_table_td">Eyelink.mexmaci64</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">Ubuntu   32bit</td>
+<td class="cms_table_td">Eyelink.mexglx</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">Ubuntu   64bit</td>
+<td class="cms_table_td">Eyelink.mexa64</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics</td>
+</tr>
+</table></div>
+<br />
+Psychtoolbox with Octave:<br />
+<div class="cms_table"><table class="cms_table"><tr valign="top" class="cms_table_tr"><td class="cms_table_td">platform &amp; bit version</td>
+<td class="cms_table_td">mex</td>
+<td class="cms_table_td">mex location</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">Mac 64bit</td>
+<td class="cms_table_td">Eyelink.mex</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics\Octave3OSXFiles64</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">Ubuntu   32bit</td>
+<td class="cms_table_td">Eyelink.mex</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics\Octave3LinuxFiles</td>
+</tr>
+<tr valign="top" class="cms_table_tr"><td class="cms_table_td">Ubuntu   64bit</td>
+<td class="cms_table_td">Eyelink.mex</td>
+<td class="cms_table_td">Psychtoolbox\PsychBasics\Octave3OSXFiles64</td>
+</tr>
+</table></div>
+<br />
+---------------------------------------------------------------------------------------------------------------------<br />
+Please note that &quot;Psychtoolbox will not work with GNU/Octave on MS-Windows, or with 32-Bit Octave on OSX, as support for these setups <br />
+has been cancelled for the 3.0.10 series. <br />
+<br />
+<br />
+Some known issue: <br />
+<br />
+1 Calibration circles show as squares<br />
+<br />
+The same issue has been seen by other users of psychtoolbox, for example:<br />
+<br />
+<a href="http://groups.yahoo.com/neo/groups/psychtoolbox/conversations/topics/4239" target="_blank">http://groups.yahoo.com/neo/groups/p...ns/topics/4239</a><br />
+<br />
+If the squares bother you, you can try: <br />
+<br />
+solution1: <br />
+<br />
+In Psychtoolbox\PsychHardware\EyelinkToolbox\EyelinkB  asic\PsychEyelinkDispatchCallback.m file: <br />
+use: <br />
+    Screen('FillOval', eyewin, el.calibrationtargetcolour, [calxy(1)-size/2 calxy(2)-size/2 calxy(1)+size/2 calxy(2)+size/2], size+2);<br />
+    Screen('FillOval', eyewin, el.backgroundcolour, [calxy(1)-inset/2 calxy(2)-inset/2 calxy(1)+inset/2 calxy(2)+inset/2], inset+2);<br />
+<br />
+instead of:<br />
+<br />
+    Screen('DrawDots', eyewin, calxy, size, el.calibrationtargetcolour, [], 1);<br />
+    Screen('DrawDots', eyewin, calxy, insetSize, el.backgroundcolour, [], 1);<br />
+<br />
+<br />
+solution 2: without using callback function, this means no camera image during calibration.<br />
+<br />
+  set el.callback=[] .<br />
+ <br />
+<br />
+----------------------------------------------------------------------------------------------------------------------<br />
+Some known issue with Octave:<br />
+<br />
+1. imginfo() crashes with octave 3.6.4 (with octave 3.2.4 as well)<br />
+temporary solution: give image information manually , instead of using imginfo()<br />
+<br />
+<br />
+crash info: <br />
+warning: your version of GraphicsMagick limits images to 8 bits per pixel ... ...<br />
+panic: Abort trap ... ... <br />
+<br />
+<br />
+2. imread() may cause issue, sometimes when an experiment is run multiple times under Octave, Octave crashes.
+				</blockquote>
+			</div>
+
+
+
+
+		</div>
+
+
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div> <!-- closing div for body_wrapper -->
+
+
+
+</body></html>

@@ -1,0 +1,193 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "broadcast"=.\broadcast\broadcast.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    broadcast
+    .\broadcast
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "comm_listener"=.\comm_listener\comm_listener.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    comm_listener
+    .\comm_listener
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "comm_simple"=.\comm_simple\comm_simple.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    comm_simple
+    .\comm_simple
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "control"=.\control\control.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    control
+    .\control
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "dynamic"=.\dynamic\dynamic.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    dynamic
+    .\dynamic
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "eyedata"=.\eyedata\eyedata.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    eyedata
+    .\eyedata
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "gcwindow"=.\gcwindow\gcwindow.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    gcwindow
+    .\gcwindow
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "picture"=.\picture\picture.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    picture
+    .\picture
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "simple"=.\simple\simple.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    simple
+    .\simple
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "text"=.\text\text.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    text
+    .\text
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "track"=.\track\track.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    track
+    .\track
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

@@ -1,0 +1,26 @@
+HKCR
+{
+	Com_SDL__core_graphics.SDLCoreGraphics.1 = s 'SDLCoreGraphics Class'
+	{
+		CLSID = s '{5A01E0D6-A278-4C47-8218-D1CD246D28C0}'
+	}
+	Com_SDL__core_graphics.SDLCoreGraphics = s 'SDLCoreGraphics Class'
+	{
+		CLSID = s '{5A01E0D6-A278-4C47-8218-D1CD246D28C0}'
+		CurVer = s 'Com_SDL__core_graphics.SDLCoreGraphics.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {5A01E0D6-A278-4C47-8218-D1CD246D28C0} = s 'SDLCoreGraphics Class'
+		{
+			ProgID = s 'Com_SDL__core_graphics.SDLCoreGraphics.1'
+			VersionIndependentProgID = s 'Com_SDL__core_graphics.SDLCoreGraphics'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{0E0C52FB-E1FE-4F69-8CB4-6A873A0E5F2C}'
+		}
+	}
+}

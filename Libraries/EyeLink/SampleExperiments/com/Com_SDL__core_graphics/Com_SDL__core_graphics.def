@@ -1,0 +1,7 @@
+; Com_SDL__core_graphics.def : Declares the module parameters.
+
+EXPORTS
+	DllCanUnloadNow     @1 PRIVATE
+	DllGetClassObject   @2 PRIVATE
+	DllRegisterServer   @3 PRIVATE
+	DllUnregisterServer	@4 PRIVATE
